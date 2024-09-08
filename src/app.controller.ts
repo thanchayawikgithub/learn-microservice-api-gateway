@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import axios from 'axios';
 
 @Controller()
 export class AppController {
@@ -13,18 +12,11 @@ export class AppController {
 
   @Post('sum1')
   async sum1(@Body('numbers') numbers: number[]): Promise<number> {
-    try {
-      const response = await axios.post<number>(
-        'http://localhost:3001/math/sum',
-        {
-          numbers,
-        },
-      );
+    return this.appService.sum1(numbers);
+  }
 
-      return response.data;
-    } catch (error) {
-      console.error('Error caling the microservice', error);
-      throw error;
-    }
+  @Post('sum2')
+  async sum2(@Body('numbers') numbers: number[]) {
+    return this.appService.sum2(numbers);
   }
 }
